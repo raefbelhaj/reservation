@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des Salles</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        strong {
+            font-weight: bold;
+        }
+
+        .btn {
+            padding: 5px 10px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        .btn-update {
+            background-color: #007bff;
+            color: white;
+            border: none;
+        }
+
+        .btn-delete {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+        }
+
+        .btn-reserver {
+            background-color: #28a745;
+            color: white;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Liste des Salles</h1>
+    <h2><a href="nouvelle">AjouterSalle</a></h2>
+    <a class="btn btn-create" href="/reservation/create">Créer une Réservation</a>
+
+    <ul>
+        <% salles.forEach(function(salle) { %>
+            <li>
+                <strong>Capacité:</strong> <%= salle.capacity %>, 
+                <strong>Équipement:</strong> <%= salle.equipment %>, 
+                <strong>Disponible:</strong> <%= salle.available ? 'Oui' : 'Non' %>
+                <button class="btn btn-update" onclick="updateSalle('<%= salle._id %>')">Update</button>
+                <button class="btn btn-delete" onclick="deleteSalle('<%= salle._id %>')">Delete</button>
+                <button class="btn btn-reserver" onclick="reserverSalle('<%= salle._id %>')">Réserver Salle</button>
+            </li>
+        <% }); %>
+    </ul>
+    
+    <script>
+        function reserverSalle(id) {
+            // Rediriger vers la page de création de réservation avec l'ID de la salle
+            window.location.href = '/reservation/create/' + id;
+        }
+
+        function updateSalle(id) {
+            // Rediriger vers la page d'édition avec l'ID de la salle
+            window.location.href = '/salle/update/' + id;
+        }
+
+        function deleteSalle(id) {
+            if (confirm('Êtes-vous sûr de vouloir supprimer cette salle ?')) {
+                // Envoyer une requête DELETE pour supprimer la salle
+                fetch('/salle/' + id, {
+                    method: 'DELETE'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                    // Recharger la page pour afficher les salles mises à jour
+                    window.location.reload();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Une erreur s\'est produite lors de la suppression de la salle.');
+                });
+            }
+        }
+    </script>
+</body>
+</html>

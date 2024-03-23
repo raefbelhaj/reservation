@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Modifier Salle</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="number"],
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 5px;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Modifier Salle</h1>
+    <form action="/salle/update/<%= salle._id %>" method="POST">
+        <label for="capacity">Capacité:</label>
+        <input type="number" name="capacity" id="capacity" value="<%= salle.capacity %>" required>
+        <br>
+        <label for="equipment">Équipement:</label>
+        <input type="text" name="equipment" id="equipment" value="<%= salle.equipment %>" required>
+        <br>
+        <label for="available">Disponible:</label>
+        <input type="checkbox" name="available" id="available" <%= salle.available ? 'checked' : '' %>>
+        <br>
+        <button type="submit">Modifier Salle</button>
+    </form>
+</body>
+</html>
