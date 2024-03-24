@@ -104,5 +104,17 @@
             </form>
         </div>
     </div>
+
+    <script>
+        // JavaScript pour extraire l'ID de la salle de l'URL et le remplir dans le champ "Salle ID"
+        // Récupérer l'URL actuelle
+        const currentUrl = window.location.href;
+        // Diviser l'URL en parties en utilisant '/'
+        const urlParts = currentUrl.split('/');
+        // L'ID de la salle est généralement à la dernière position de l'URL
+        const salleId = urlParts[urlParts.length - 1];
+        // Sélectionner l'input avec l'ID "salleId" et lui attribuer la valeur de l'ID extrait
+        document.getElementById('salleId').value = salleId;
+    </script>
 </body>
 </html>
