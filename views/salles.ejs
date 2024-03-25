@@ -5,12 +5,26 @@
     <title>Liste des Salles</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
             margin: 20px;
+            background-color: #000;
+            color: #fff;
         }
 
         h1 {
             text-align: center;
+            margin-bottom: 20px;
+            color: #fff;
+            border-bottom: 2px solid #fff;
+            padding-bottom: 10px;
+        }
+
+        h2 {
+            text-align: left;
+            margin-bottom: 20px;
+            color: rgb(255, 0, 0);
+            
+            line-height: normal;
         }
 
         ul {
@@ -19,9 +33,11 @@
         }
 
         li {
-            border: 1px solid #ccc;
+            border: 1px solid #fff;
             padding: 10px;
             margin-bottom: 10px;
+            background-color: #333;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
         }
 
         strong {
@@ -32,6 +48,8 @@
             padding: 5px 10px;
             margin-left: 10px;
             cursor: pointer;
+            border-radius: 5px;
+            font-size: 14px;
         }
 
         .btn-update {
@@ -51,12 +69,25 @@
             color: white;
             border: none;
         }
+
+        .btn:hover {
+            opacity: 0.8;
+        }
+
+        a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
     <h1>Liste des Salles</h1>
-    <h2><a href="nouvelle">AjouterSalle</a></h2>
-    <a class="btn btn-create" href="/reservation/create">Créer une Réservation</a>
+
+    <h2> <a href="nouvelle" style="background-color: #fff; color:black;;">AjouterSalle</a></h2>
 
     <ul>
         <% salles.forEach(function(salle) { %>
@@ -70,6 +101,7 @@
             </li>
         <% }); %>
     </ul>
+
     
     <script>
         function reserverSalle(id) {

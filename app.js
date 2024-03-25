@@ -6,7 +6,11 @@ const reservationRoutes = require('./routes/reservationRoutes');
 const dotenv = require('dotenv');
 const path = require('path'); // Import du module path
 const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser'); // Importer cookie-parser
+const cookieParser = require('cookie-parser');
+
+
+
+
 
 
 dotenv.config();
@@ -14,6 +18,7 @@ dotenv.config();
 const app = express();
 //////////////// utiliser le cookie perser 
 app.use(cookieParser());
+
 
 // Configuration des vues avec EJS et middleware
 app.set('view engine', 'ejs');
@@ -26,7 +31,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Utilisation des routes
 app.use(express.json());
 app.use('/auth', authRoutes);
-app.use('/salle', salleRoutes);
+app.use('/salle', salleRoutes );
 app.use('/reservation', reservationRoutes);
 
 const MONGODB_URI = process.env.MONGODB_URI;

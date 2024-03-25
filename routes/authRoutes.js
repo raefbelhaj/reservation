@@ -28,32 +28,33 @@ router.get('/login', (req, res) => {
     res.render('login');
   });
 
-router.post('/login', async (req, res) => {
+  router.post('/login', async (req, res) => {
     try {
-        const { email, password } = req.body;
-        const user = await User.findOne({ email: email });
-        if (!user) {
-            return res.status(404).send('Utilisateur non trouvé');
-        }
-        const isPasswordMatch = await bcrypt.compare(password, user.password);
-        if (!isPasswordMatch) {
-            return res.status(401).send('Mot de passe invalide');
-        }
-
-        const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
-        // Envoi du token comme cookie ou dans le corps de la réponse, selon votre besoin
-        res.cookie('authToken', token); // Vous pouvez utiliser un cookie pour stocker le token
-
-        // Redirection vers la page de liste des salles après la connexion
-        res.redirect('/salle/salles'); // Redirection vers la page de liste des salles
-
+      const { email, password } = req.body;
+      const user = await User.findOne({ email: email });
+      if (!user) {
+        return res.status(404).send('Utilisateur non trouvé');
+      }
+      const isPasswordMatch = await bcrypt.compare(password, user.password);
+      if (!isPasswordMatch) {
+        return res.status(401).send('Mot de passe invalide');
+      }
+    
+      const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
+    
+      // Définition du cookie authToken
+      res.cookie('authToken', token, { httpOnly: true });
+    
+      // Redirection vers la page de liste des salles après la connexion
+      res.redirect('/salle/salles');
+    
     } catch (err) {
-        res.status(400).send(err.message);
+      console.error(err);
+      res.status(400).send(err.message);
     }
-});
-
-
-
+  });
+  
+  
 
 
 

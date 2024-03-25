@@ -1,13 +1,17 @@
 const express = require('express');
 const Salle = require('../models/salle');
 const router = express.Router();
-const { requireAuth } = require('../middelware/authMiddleware'); // Importer le middleware d'authentification
+const authenticate = require('../middelware/authMiddleware')
+
+router.use(authenticate);
+
 
 
 // Render view
 // liste salles
-router.get('/salles',requireAuth , async (req, res) => {
+router.get('/salles',authenticate, async (req, res) => {
   try {
+
     const salles = await Salle.find();
     res.render('salles', { salles }); // Render the 'salles' view
   } catch (error) {
@@ -25,6 +29,9 @@ router.get('/nouvelle', async (req, res) => {
   //update salle
   router.get('/update/:id', async (req, res) => {
     try {
+      //voir user authentifier
+      const userId = req.user._id;
+
       const salle = await Salle.findById(req.params.id);
       if (!salle) {
         return res.status(404).json({ message: 'Salle not found' });
@@ -64,14 +71,7 @@ router.get('/nouvelle', async (req, res) => {
 
 
 // json 
-router.get('', async (req, res) => {
-  try {
-    const salles = await Salle.find();
-    res.json(salles);
-  } catch (error) {
-    res.status(500).send(error.message);
-  }
-});
+
 
 router.post('/addSalle', async (req, res) => {
     try {
@@ -93,15 +93,7 @@ router.post('/addSalle', async (req, res) => {
   });
   
 
-router.put('/update/:id', async (req, res) => {
-  try {
-    const { capacity, equipment, available } = req.body;
-    await Salle.findByIdAndUpdate(req.params.id, { capacity, equipment, available }, { new: true });
-    res.status(201).send('Salle updated successfully');
-  } catch (error) {
-    res.status(500).send(error.message);
-  }
-});
+
 
 router.delete('/:id', async (req, res) => {
   try {

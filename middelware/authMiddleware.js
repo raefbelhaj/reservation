@@ -1,29 +1,22 @@
 const jwt = require('jsonwebtoken');
+const User = require('../models/user');
 
-const requireAuth = (req, res, next) => {
-    // Vérifier si req.cookies est défini
-    if (!req.cookies) {
-        res.status(401).send('Les cookies ne sont pas activés.');
-        return;
-    }
 
-    const token = req.cookies.authToken;
+const authenticate = (req, res, next) => {
+  const token = req.cookies.authToken; // Récupérer le token depuis le cookie
 
-    // Vérifier si le token est présent
-    if (token) {
-        jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
-            if (err) {
-                // Si le token est invalide, rediriger vers la page de connexion
-                res.redirect('/auth/login');
-            } else {
-                // Si le token est valide, passer à l'étape suivante
-                next();
-            }
-        });
-    } else {
-        // Si aucun token n'est présent, rediriger vers la page de connexion
-        res.redirect('/auth/login');
-    }
+  if (!token) {
+    return res.status(401).send('Authentication failed: No token provided');
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = { _id: decoded._id }; // Ajouter userId à req.user
+    next();
+  } catch (error) {
+    return res.status(401).send('Authentication failed: Invalid token');
+  }
 };
 
-module.exports = { requireAuth };
+module.exports = authenticate;
+
