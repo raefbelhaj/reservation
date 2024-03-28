@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendrier des Salles</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f7f7f7;
+            background-image: url('background.jpg'); /* Ajoutez l'URL de votre image de fond */
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9); /* Fond semi-transparent */
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ombre légère */
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        h2 {
+            color: #007bff;
+        }
+
+        .salle-info {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .reservation-info {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
+
+        .reservation-info p {
+            margin: 5px 0;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        li:nth-child(even) {
+            background-color: #f7f7f7;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Calendrier des Salles</h1>
+        <% salleReservations.forEach((salleReservation) => { %>
+            <div class="salle-info">
+                <h2><%= salleReservation.salle.name %></h2>
+                <p>Capacité: <%= salleReservation.salle.capacity %></p>
+                <p>Équipements: <%= salleReservation.salle.equipment %></p>
+                <p>Disponible: <%= salleReservation.salle.available ? 'Oui' : 'Non' %></p>
+                <ul>
+                    <% salleReservation.reservations.forEach((reservation) => { %>
+                        <li class="reservation-info">
+                            <p>Date: <%= reservation.date %></p>
+                            <p>Heure de début: <%= reservation.startTime %></p>
+                            <p>Heure de fin: <%= reservation.endTime %></p>
+                        </li>
+                    <% }); %>
+                </ul>
+            </div>
+        <% }); %>
+    </div>
+</body>
+</html>

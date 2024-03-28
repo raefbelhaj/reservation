@@ -7,6 +7,8 @@ const dotenv = require('dotenv');
 const path = require('path'); // Import du module path
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const router = require("./routes/reservationRoutes");
+const calenderRoutes= require("./routes/calendarRoutes")
 
 
 
@@ -33,6 +35,7 @@ app.use(express.json());
 app.use('/auth', authRoutes);
 app.use('/salle', salleRoutes );
 app.use('/reservation', reservationRoutes);
+app.use('/calendar', calenderRoutes);
 
 const MONGODB_URI = process.env.MONGODB_URI;
 const PORT = process.env.PORT || 4000;
@@ -45,7 +48,6 @@ mongoose.connect(MONGODB_URI).then(() => {
 }).catch(err => {
   console.log('Error connecting to database:', err);
 });
-
 
 
 // Utiliser cookie-parser

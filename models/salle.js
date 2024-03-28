@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const salleSchema = new mongoose.Schema({
+
     capacity: Number,
     equipment: String,
     available: { type: Boolean, default: true },
